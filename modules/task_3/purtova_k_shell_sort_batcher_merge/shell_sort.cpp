@@ -18,7 +18,7 @@ std::vector<int> VectorRandomizer(int size) {
 }
 
 std::vector<int> Shell(const std::vector<int>& arr, int n) {
-    std::vector A = arr;
+    std::vector<int> A = arr;
     for (int step = n / 2; step > 0; step /= 2) {
         for (int i = step; i < n; i++) {
             for (int j = i - step; j >= 0 && A[j] > A[j + step]; j -= step) {
@@ -41,8 +41,9 @@ std::vector <std::vector<int>> splitVector(const std::vector<int>& vec, size_t n
         if (remainder > 0) {
             end += piece_lenght + 1;
             remainder--;
-        } else end += piece_lenght;
-
+        } else {
+            end += piece_lenght;
+        }
         array_of_vec.push_back(std::vector<int>(vec.begin() + begin, vec.begin() + end));
         begin = end;
     }
@@ -67,15 +68,17 @@ std::vector <int> MergerEvenOdd(const std::vector<int>& arr1, const std::vector<
     }
 
     if (i1 >= arr1_size) {
-        for (i2; i2 < arr2_size; i2 += 2) {
+        while(i2 < arr2_size) {
             array_result[i] = arr2[i2];
             i++;
+            i2 += 2;
         }
     }
     if (i2 >= arr2_size) {
-        for (i1; i1 < arr1_size; i1 += 2) {
+        while(i1 < arr1_size) {
             array_result[i] = arr1[i1];
             i++;
+            i1 += 2;
         }
     }
     return array_result;
@@ -112,8 +115,7 @@ std::vector<int> BatcherMerger(const std::vector<int>& arr1, const std::vector<i
     int arr1_size = arr1.size();
     int arr2_size = arr2.size();
 
-    while ((i1 != arr1_size) && (i2 != arr2_size))
-    {
+    while ((i1 != arr1_size) && (i2 != arr2_size)) {
         if (arr1[i1] <= arr2[i2]) {
             array_result[i] = arr1[i1];
             i1++;
@@ -126,10 +128,10 @@ std::vector<int> BatcherMerger(const std::vector<int>& arr1, const std::vector<i
     if (i1 == arr1_size) {
         for (int j = i2; j < arr2_size; j++)
             array_result[arr1_size + j] = arr2[j];
-	} else {
+    } else {
         for (int j = i1; j < arr1_size; j++)
             array_result[arr2_size + j] = arr1[j];
-	}
+    }
     return array_result;
 }
 
@@ -153,7 +155,7 @@ std::vector<int> ShellWithBatcher(const std::vector<int>& arr, int size, int num
 std::vector<int> ShellWithBatcherTBB(const std::vector<int>& arr, int size, int number) {
     std::vector<std::vector<int>> array_of_vec = splitVector(arr, number);
     int array_size = array_of_vec.size();
-    
+
     tbb::task_scheduler_init init(number);
     int grainSize = size/number;
     tbb::parallel_for(tbb::blocked_range<size_t>(0, array_size, grainSize),

@@ -9,7 +9,7 @@ std::vector<int> BatcherEvenNumber(const std::vector<int>& arr1, const std::vect
 std::vector<int> BatcherOddNumber(const std::vector<int>& arr1, const std::vector<int>& arr2);
 std::vector<int> BatcherMerger(const std::vector<int>& arr1, const std::vector<int>& arr2);
 std::vector<int> ShellWithBatcher(const std::vector<int>& arr, int size, int number);
-std::vector<int> ShellWithBatcherOpenMP(const std::vector<int>& arr, int size, int number);
+std::vector<int> ShellWithBatcherTBB(const std::vector<int>& arr, int size, int number);
 std::vector<int> VectorRandomizer(int size);
 std::vector <std::vector<int>> splitVector(const std::vector<int>& vec, size_t number);
 #endif  // MODULES_TASK_3_PURTOVA_K_SHELL_SORT_BATCHER_MERGE_SHELL_SORT_H_
