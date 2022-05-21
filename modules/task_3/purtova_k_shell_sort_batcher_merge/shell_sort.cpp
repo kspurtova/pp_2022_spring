@@ -1,6 +1,8 @@
 // Copyright 2022 Purtova Ksenia
 #include "../../../modules/task_3/purtova_k_shell_sort_batcher_merge/shell_sort.h"
-#include <tbb/tbb.h>
+#include <tbb/task_scheduler_init.h>
+#include <tbb/parallel_for.h>
+#include <tbb/blocked_range.h>
 #include <iostream>
 #include <vector>
 #include <random>
@@ -159,7 +161,7 @@ std::vector<int> ShellWithBatcherTBB(const std::vector<int>& arr, int size, int 
     tbb::task_scheduler_init init(number);
     int grainSize = size/number;
     tbb::parallel_for(tbb::blocked_range<size_t>(0, array_size, grainSize),
-        [=](const tbb::blocked_range<size_t>& r) {
+        [&array_of_vec](const tbb::blocked_range<size_t>& r) {
             int begin = r.begin(), end = r.end();
             for (int i = begin; i != end; i++)
                 array_of_vec[i] = Shell(array_of_vec[i], array_of_vec[i].size());
