@@ -1,32 +1,31 @@
-// Copyright 2022 Purtova Ksenia 
+// Copyright 2022 Purtova Ksenia
 #include "../../../modules/task_2/purtova_k_shell_sort_batcher_merge/shell_sort.h"
 #include <iostream>
 #include <vector>
 #include <random>
 #include <ctime>
 
-std::vector<int> VectorRandomizer(int size) { 
-
+std::vector<int> VectorRandomizer(int size) {
     std::vector<int> vec(size);
 
     std::mt19937 engine;
     engine.seed(static_cast<int>(time(nullptr)));
 
-    for (int i = 0; i < size; i++) 
+    for (int i = 0; i < size; i++)
         vec[i] = engine();
     return vec;
 }
 
 std::vector<int> Shell(const std::vector<int>& arr, int n) {
     std::vector<int> A = arr;
-    for (int step = n / 2; step > 0; step /= 2) { 
-        for (int i = step; i < n; i++) { 
-            for (int j = i - step; j >= 0 && A[j] > A[j + step]; j -= step) { 
-                int x = A[j]; 
-                A[j] = A[j + step]; 
-                A[j + step] = x; 
-            } 
-        } 
+    for (int step = n / 2; step > 0; step /= 2) {
+        for (int i = step; i < n; i++) {
+            for (int j = i - step; j >= 0 && A[j] > A[j + step]; j -= step) {
+                int x = A[j];
+                A[j] = A[j + step];
+                A[j + step] = x;
+            }
+        }
     }
     return A;
 }
@@ -38,12 +37,14 @@ std::vector <std::vector<int>> splitVector(const std::vector<int>& vec, size_t n
     size_t begin = 0, end = 0;
     size_t vec_size = vec.size();
 
-    for (int i = 0; i < std::min(number, vec_size); i++) {
+    for (int i = 0; i < fmin(number, vec_size); i++) {
         if (remainder > 0) {
             end += piece_lenght + 1;
             remainder--;
         }
-        else end += piece_lenght;
+        else {
+            end += piece_lenght;
+        }
 
         array_of_vec.push_back(std::vector<int>(vec.begin() + begin, vec.begin() + end));
         begin = end;
@@ -51,8 +52,8 @@ std::vector <std::vector<int>> splitVector(const std::vector<int>& vec, size_t n
     return array_of_vec;
 }
 
-std::vector <int> MergerEvenOdd(const std::vector<int>& arr1, const std::vector<int>& arr2, int i1, int i2, int size_result) {
-    std::vector <int> array_result(size_result);
+std::vector <int> MergerEvenOdd(const std::vector<int>& arr1, const std::vector<int>& arr2, int i1, int i2, int size) {
+    std::vector <int> array_result(size);
     int i = 0;
     int arr1_size = arr1.size();
     int arr2_size = arr2.size();
@@ -61,8 +62,7 @@ std::vector <int> MergerEvenOdd(const std::vector<int>& arr1, const std::vector<
             array_result[i] = arr1[i1];
             i++;
             i1 += 2;
-        }
-        else {
+        } else {
             array_result[i] = arr2[i2];
             i++;
             i2 += 2;
@@ -87,7 +87,7 @@ std::vector <int> MergerEvenOdd(const std::vector<int>& arr1, const std::vector<
     return array_result;
 }
 
-std::vector<int> BatcherEvenNumber(const std::vector<int>& arr1, const std::vector<int>& arr2) {		// even - четные 
+std::vector<int> BatcherEvenNumber(const std::vector<int>& arr1, const std::vector<int>& arr2) {
     int size_result = arr1.size()/2 + arr2.size()/2 + arr1.size()%2 + arr2.size()%2;
 
     std::vector <int> array_result(size_result);
@@ -99,7 +99,7 @@ std::vector<int> BatcherEvenNumber(const std::vector<int>& arr1, const std::vect
     return array_result;
 }
 
-std::vector<int> BatcherOddNumber(const std::vector<int>& arr1, const std::vector<int>& arr2) {		//odd - нечетные
+std::vector<int> BatcherOddNumber(const std::vector<int>& arr1, const std::vector<int>& arr2) {
     int size_result = arr1.size() / 2 + arr2.size() / 2;
 
     std::vector <int> array_result(size_result);
@@ -118,13 +118,11 @@ std::vector<int> BatcherMerger(const std::vector<int>& arr1, const std::vector<i
     int arr1_size = arr1.size();
     int arr2_size = arr2.size();
 
-    while ((i1 != arr1_size) && (i2 != arr2_size))
-    {
+    while ((i1 != arr1_size) && (i2 != arr2_size)) {
         if (arr1[i1] <= arr2[i2]) {
             array_result[i] = arr1[i1];
             i1++;
-        }
-        else {
+        } else {
             array_result[i] = arr2[i2];
             i2++;
         }
@@ -137,16 +135,15 @@ std::vector<int> BatcherMerger(const std::vector<int>& arr1, const std::vector<i
     else {
         for (int j = i1; j < arr1_size; j++)
             array_result[arr2_size + j] = arr1[j];
-	}
+    }
     return array_result;
 }
 
 std::vector<int> ShellWithBatcher(const std::vector<int>& arr, int size, int number) {
-
     std::vector<std::vector<int>> array_of_vec = splitVector(arr, number);
     int array_size = array_of_vec.size();
 
-    for (int i = 0; i < array_size; i++) 
+    for (int i = 0; i < array_size; i++)
         array_of_vec[i] = Shell(array_of_vec[i], array_of_vec[i].size());
 
     std::vector<int> even, odd, merger;
@@ -160,11 +157,10 @@ std::vector<int> ShellWithBatcher(const std::vector<int>& arr, int size, int num
 }
 
 std::vector<int> ShellWithBatcherOpenMP(const std::vector<int>& arr, int size, int number) {
-
     std::vector<std::vector<int>> array_of_vec = splitVector(arr, number);
     int array_size = array_of_vec.size();
 
-#pragma omp parallel 
+#pragma omp parallel
     {
 #pragma omp for
         for (int i = 0; i < array_size; i++) {
