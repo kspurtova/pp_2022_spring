@@ -37,7 +37,7 @@ std::vector <std::vector<int>> splitVector(const std::vector<int>& vec, size_t n
     size_t remainder = vec.size() % number;
     size_t begin = 0, end = 0;
     size_t vec_size = vec.size();
-    for (int i = 0; i < std::min(number, vec_size); i++) {
+    for (int i = 0; i < fmin(number, vec_size); i++) {
         if (remainder > 0) {
             end += piece_lenght + 1;
             remainder--;
@@ -162,7 +162,7 @@ std::vector<int> ShellWithBatcherTBB(const std::vector<int>& arr, int size, int 
         [=](const tbb::blocked_range<size_t>& r) {
             int begin = r.begin(), end = r.end();
             for (int i = begin; i != end; i++)
-            array_of_vec[i] = Shell(array_of_vec[i], array_of_vec[i].size());
+                array_of_vec[i] = Shell(array_of_vec[i], array_of_vec[i].size());
         });
     init.terminate();
 
