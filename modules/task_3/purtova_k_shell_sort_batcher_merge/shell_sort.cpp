@@ -68,14 +68,14 @@ std::vector <int> MergerEvenOdd(const std::vector<int>& arr1, const std::vector<
     }
 
     if (i1 >= arr1_size) {
-        while(i2 < arr2_size) {
+        while (i2 < arr2_size) {
             array_result[i] = arr2[i2];
             i++;
             i2 += 2;
         }
     }
     if (i2 >= arr2_size) {
-        while(i1 < arr1_size) {
+        while (i1 < arr1_size) {
             array_result[i] = arr1[i1];
             i++;
             i1 += 2;
