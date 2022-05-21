@@ -1,10 +1,10 @@
-// Copyright 2022 Purtova Ksenia 
+// Copyright 2022 Purtova Ksenia
 #include <gtest/gtest.h>
 #include<iostream>
 #include "./shell_sort.h"
 
 TEST(test_Shell_Batch_sort_seq, test_on_10_elements) {
-  std::vector<int> res = {9,8,7,6,5,4,3,2,1,0};
+  std::vector<int> res = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
   std::vector<int> betch = ShellWithBatcher(res, 10, 2);
   std::sort(res.begin(), res.end());
   ASSERT_EQ(betch, res);
@@ -12,7 +12,7 @@ TEST(test_Shell_Batch_sort_seq, test_on_10_elements) {
 
 
 TEST(test_Shell_Batch_sort_omp, test_on_10_elements) {
-  std::vector<int> res = {9,8,7,6,5,4,3,2,1,0};
+  std::vector<int> res = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};
   std::vector<int> betch = ShellWithBatcherOpenMP(res, 10, 2);
   std::sort(res.begin(), res.end());
   ASSERT_EQ(betch, res);

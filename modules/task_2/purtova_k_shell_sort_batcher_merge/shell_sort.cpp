@@ -41,8 +41,7 @@ std::vector <std::vector<int>> splitVector(const std::vector<int>& vec, size_t n
         if (remainder > 0) {
             end += piece_lenght + 1;
             remainder--;
-        }
-        else {
+        } else {
             end += piece_lenght;
         }
 
@@ -131,8 +130,7 @@ std::vector<int> BatcherMerger(const std::vector<int>& arr1, const std::vector<i
     if (i1 == arr1_size) {
         for (int j = i2; j < arr2_size; j++)
             array_result[arr1_size + j] = arr2[j];
-	}
-    else {
+    } else {
         for (int j = i1; j < arr1_size; j++)
             array_result[arr2_size + j] = arr1[j];
     }
